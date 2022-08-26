@@ -16,7 +16,9 @@ namespace LinqQuiz.Library
         /// </exception>
         public static int[] GetEvenNumbers(int exclusiveUpperLimit)
         {
-            throw new NotImplementedException();
+            return exclusiveUpperLimit < 1
+                ? throw new ArgumentOutOfRangeException()
+                : Enumerable.Range(1, exclusiveUpperLimit - 1).Where(number => number % 2 == 0).ToArray();
         }
 
         /// <summary>
@@ -33,7 +35,12 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static int[] GetSquares(int exclusiveUpperLimit)
         {
-            throw new NotImplementedException();
+            return exclusiveUpperLimit > 46340
+                ? throw new OverflowException()
+                : exclusiveUpperLimit < 1
+                    ? Array.Empty<int>()
+                    : Enumerable.Range(1, exclusiveUpperLimit - 1).Select(number => number * number)
+                        .Where(number => number % 7 == 0).OrderByDescending(number => number).ToArray();
         }
 
         /// <summary>
@@ -52,9 +59,16 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static FamilySummary[] GetFamilyStatistic(IReadOnlyCollection<IFamily> families)
         {
-            throw new NotImplementedException();
+            return families is null
+                ? throw new ArgumentNullException()
+                : families.Select(fam => new FamilySummary
+                {
+                    FamilyID = fam.ID, 
+                    NumberOfFamilyMembers = fam.Persons.Count,
+                    AverageAge = fam.Persons.Count > 0 ? fam.Persons.Average(person => person.Age) : 0 
+                }).ToArray();
         }
-
+        
         /// <summary>
         /// Returns a statistic about the number of occurrences of letters in a text.
         /// </summary>
@@ -70,7 +84,7 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static (char letter, int numberOfOccurrences)[] GetLetterStatistic(string text)
         {
-            throw new NotImplementedException();
+            return text
         }
     }
 }
