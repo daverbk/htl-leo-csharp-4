@@ -85,6 +85,10 @@ namespace LinqQuiz.Library
         public static (char letter, int numberOfOccurrences)[] GetLetterStatistic(string text)
         {
             return text
+                .Where(char.IsLetter)
+                .GroupBy(chars => chars)
+                .Select(stat => new ValueTuple<char, int>(stat.Key, stat.Count()))
+                .ToArray();
         }
     }
 }
