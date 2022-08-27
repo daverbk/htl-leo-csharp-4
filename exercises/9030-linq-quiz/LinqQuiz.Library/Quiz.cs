@@ -18,7 +18,10 @@ namespace LinqQuiz.Library
         {
             return exclusiveUpperLimit < 1
                 ? throw new ArgumentOutOfRangeException()
-                : Enumerable.Range(1, exclusiveUpperLimit - 1).Where(number => number % 2 == 0).ToArray();
+                : Enumerable
+                    .Range(1, exclusiveUpperLimit - 1)
+                    .Where(number => number % 2 == 0)
+                    .ToArray();
         }
 
         /// <summary>
@@ -39,8 +42,12 @@ namespace LinqQuiz.Library
                 ? throw new OverflowException()
                 : exclusiveUpperLimit < 1
                     ? Array.Empty<int>()
-                    : Enumerable.Range(1, exclusiveUpperLimit - 1).Select(number => number * number)
-                        .Where(number => number % 7 == 0).OrderByDescending(number => number).ToArray();
+                    : Enumerable
+                        .Range(1, exclusiveUpperLimit - 1)
+                        .Select(number => number * number)
+                        .Where(number => number % 7 == 0)
+                        .OrderByDescending(number => number)
+                        .ToArray();
         }
 
         /// <summary>
@@ -61,12 +68,15 @@ namespace LinqQuiz.Library
         {
             return families is null
                 ? throw new ArgumentNullException()
-                : families.Select(fam => new FamilySummary
-                {
-                    FamilyID = fam.ID, 
-                    NumberOfFamilyMembers = fam.Persons.Count,
-                    AverageAge = fam.Persons.Count > 0 ? fam.Persons.Average(person => person.Age) : 0 
-                }).ToArray();
+                : families
+                    .Select(fam => new FamilySummary 
+                    {
+                        FamilyID = fam.ID, 
+                        NumberOfFamilyMembers = fam.Persons.Count,
+                        AverageAge = fam.Persons.Count > 0 ? fam.Persons.Average(person => person.Age) : 0
+                        
+                    })
+                    .ToArray();
         }
         
         /// <summary>
